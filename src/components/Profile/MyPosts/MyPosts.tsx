@@ -1,19 +1,30 @@
 import React from 'react';
 import s from './Myposts.module.css';
 import Post from "./Post/Post";
+import {RootStateType} from "../../../Redux/state";
+import {PostsType} from "../Profile";
 
-const MyPosts = () => {
+
+
+const MyPosts = (props: PostsType) => {
+
+    let postsElement = props.profilePage.posts.map(p=> <Post message = {p.message} like ={p.likesCount}/>)
+
     return (
-        <div>
-            My post
+        <div className={s.postsBlock}>
+          <h3>My post</h3>
             <div>
-                <textarea></textarea>
-                <button>Add post</button>
-                <button>Remove</button>
+                <div>
+                    <textarea></textarea>
+                </div>
+                <div>
+                    <button>Add post</button>
+                </div>
+                {/*<button>Remove</button>*/}
             </div>
             <div className={s.posts}>
-                <Post message = 'Hi! How are you' like = '40'/>
-                <Post message = "It's my first post" like = '31'/>
+                    {/*{posts.map(p=> <Post message = {p.message} like ={p.likesCount}/>)}*/}
+                {postsElement}
             </div>
         </div>
     )
