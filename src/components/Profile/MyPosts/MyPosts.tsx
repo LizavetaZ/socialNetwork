@@ -1,19 +1,36 @@
-import React, {useRef} from 'react';
+import React, {ChangeEvent, useRef} from 'react';
 import s from './Myposts.module.css';
 import Post from "./Post/Post";
-import {RootStateType} from "../../../Redux/state";
-import {PostsType} from "../Profile";
+import {PostType, RootStateType} from "../../../Redux/state";
 
 
+export type MyPostsPropsType = {
+    posts: PostType[]
+    addPost: ()=> void
+    newPostText: string
+    updateNewPostText: (newMessage: string) => void
+}
 
-const MyPosts = (props: PostsType) => {
 
-    let postsElement = props.profilePage.posts.map(p=> <Post message = {p.message} like ={p.likesCount}/>)
+const MyPosts = (props: MyPostsPropsType) => {
 
-    const newPostElement = useRef<HTMLTextAreaElement>(null)
+    let postsElement = props.posts.map(p=> <Post key = {p.id} message = {p.message} like ={p.likesCount}/>)
 
-    const addPost = () => {
-        const text = newPostElement.current?.value
+    // let newPostElement = React.createRef<HTMLTextAreaElement>() //раскоментить, если используешь ref, закоментить onPostChange(где есть event), раскоментить textarea c ref
+
+    let addPost = () => {
+            props.addPost();
+    }
+
+    // const onPostChange = () => { //раскоментить, если используешь ref, закоментить onPostChange(где есть event), раскоментить textarea c ref
+    //     if (newPostElement.current) {
+    //         let text = newPostElement.current.value
+    //         props.updateNewPostText(text)
+    //     }
+    // }
+
+    const onPostChange = (e: ChangeEvent<HTMLTextAreaElement>) =>{
+        props.updateNewPostText(e.currentTarget.value)
     }
 
     return (
@@ -21,7 +38,9 @@ const MyPosts = (props: PostsType) => {
           <h3>My post</h3>
             <div>
                 <div>
-                    <textarea ref = {newPostElement}></textarea>
+                    <textarea onChange={onPostChange} value={props.newPostText}/>
+                    {/*<textarea ref = {newPostElement} onChange={onPostChange} value={props.newPostText}/>*/}
+                    {/*раскоментить, если используешь ref, закоментить onPostChange(где есть event), раскоментить textarea c ref*/}
                 </div>
                 <div>
                     <button onClick={addPost}>Add post</button>

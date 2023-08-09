@@ -4,16 +4,18 @@ import MyPosts from "./MyPosts/MyPosts";
 import {ProfileInfo} from './ProfileInfo/ProfileInfo'
 import {DialogsPageType, PostType, ProfilePageType, RootStateType, SidebarType} from "../../Redux/state";
 
-export type PostsType = {
+export type ProfilePropsType = {
     profilePage: ProfilePageType
+    addPost: () => void
+    updateNewPostText: (newMessage: string) => void
 }
 
-export const Profile = (props:PostsType) => {
+export const Profile = (props:ProfilePropsType) => {
 
     return (
         <div>
             <ProfileInfo/>
-            <MyPosts  profilePage={props.profilePage} />
+            <MyPosts  posts={props.profilePage.posts}  addPost = {props.addPost} newPostText = {props.profilePage.newPostText} updateNewPostText = {props.updateNewPostText}/>
         </div>
     )
 }
