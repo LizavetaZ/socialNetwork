@@ -1,8 +1,7 @@
 import React from 'react';
-
-// let rerenderEntireTree = (state: RootStateType) => {
-//
-// }
+import {addPostACType, onPostChangeACType, profileReducer} from "./profile-reducer";
+import {dialogsReducer, sendMessageACType, updateMessageBodyACType} from "./dialogs-reducer";
+import {sideBarReducer} from "./sidebar-reducer";
 
 export type ProfilePageType = {
     posts: Array<PostType>
@@ -11,6 +10,7 @@ export type ProfilePageType = {
 export type DialogsPageType = {
     dialogs: DialogType[]
     messages: MessageType[]
+    newMessageBody: string
 }
 export type SidebarType = {}
 export type RootStateType = {
@@ -104,31 +104,49 @@ export let store = {
                 {id: 2, message: 'How is your IT-camasutra'},
                 {id: 3, message: 'Yo'},
                 {id: 4, message: 'Yo'},
-                {id: 5, message: 'Yo'},
-                {id: 6, message: 'Yo'}]
+                {id: 5, message: 'Yo'}
+            ],
+            newMessageBody: ''
         },
         sidebar: {}
     },
-    getState() {
-      return this._state
-    },
-     _callSubscriber(state:RootStateType){
+    _callSubscriber(state: RootStateType) {
 
     },
-    addPost(){
-        let newPost: PostType = {id: 5, message: this._state.profilePage.newPostText, likesCount: 0}
-        this._state.profilePage.posts.push(newPost)
-        this._state.profilePage.newPostText = ""
-        this._callSubscriber(this._state)
+    getState() {
+        return this._state
     },
-    updateNewPostText(newMessage: string) {
-        this._state.profilePage.newPostText = newMessage
-        this._callSubscriber(this._state)
-    },
-    subscribe (observer: any){
+    subscribe(observer: any) {
         this._callSubscriber = observer
+    },
+    // addPost() {
+    //     let newPost: PostType = {id: 5, message: this._state.profilePage.newPostText, likesCount: 0}
+    //     this._state.profilePage.posts.push(newPost)
+    //     this._state.profilePage.newPostText = ""
+    //     this._callSubscriber(this._state)
+    // },
+    // updateNewPostText(newText: string) {
+    //     this._state.profilePage.newPostText = newText
+    //     this._callSubscriber(this._state)
+    // },
+    dispatch(action: RootACType) {
+        this._state.profilePage = profileReducer(this._state.profilePage, action)
+        this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action)
+        this._state.sidebar = sideBarReducer(this._state.sidebar, action)
+
+        this._callSubscriber(this._state)
     }
 
 }
+
+export type RootACType = addPostACType | onPostChangeACType | updateMessageBodyACType | sendMessageACType
+
+
+
+
+
+
+
+
 
 // window.store = store

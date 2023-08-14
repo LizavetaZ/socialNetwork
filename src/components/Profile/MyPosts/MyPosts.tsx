@@ -1,15 +1,19 @@
 import React, {ChangeEvent, useRef} from 'react';
 import s from './Myposts.module.css';
 import Post from "./Post/Post";
-import {PostType, RootStateType} from "../../../Redux/state";
+import {PostType, RootACType, RootStateType} from "../../../Redux/state";
+import {addPostAC, onPostChangeAC} from "../../../Redux/profile-reducer";
 
 
 export type MyPostsPropsType = {
     posts: PostType[]
-    addPost: ()=> void
+    // addPost: ()=> void
     newPostText: string
-    updateNewPostText: (newMessage: string) => void
+    // updateNewPostText: (newMessage: string) => void
+    dispatch: (action: RootACType) => void
 }
+
+
 
 
 const MyPosts = (props: MyPostsPropsType) => {
@@ -19,7 +23,7 @@ const MyPosts = (props: MyPostsPropsType) => {
     // let newPostElement = React.createRef<HTMLTextAreaElement>() //раскоментить, если используешь ref, закоментить onPostChange(где есть event), раскоментить textarea c ref
 
     let addPost = () => {
-            props.addPost();
+            props.dispatch(addPostAC(props.newPostText));
     }
 
     // const onPostChange = () => { //раскоментить, если используешь ref, закоментить onPostChange(где есть event), раскоментить textarea c ref
@@ -30,7 +34,9 @@ const MyPosts = (props: MyPostsPropsType) => {
     // }
 
     const onPostChange = (e: ChangeEvent<HTMLTextAreaElement>) =>{
-        props.updateNewPostText(e.currentTarget.value)
+        let newText = e.currentTarget.value
+        let action = onPostChangeAC(newText);
+        props.dispatch(action)
     }
 
     return (
