@@ -6,6 +6,7 @@ import {Header} from "./components/Header/Header";
 import {Dialogs} from "./components/Dialogs/Dialogs";
 import {Redirect, Route} from "react-router-dom";
 import {RootACType, RootStateType} from "./Redux/store";
+import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
 
 type AppPropsType={
     state:RootStateType
@@ -14,7 +15,7 @@ type AppPropsType={
     dispatch: (action: RootACType) => void
 }
 
-const App = (props: AppPropsType) => {
+const App = () => {
     return (
 
             <div className='app-wrapper'>
@@ -24,8 +25,8 @@ const App = (props: AppPropsType) => {
                     {/*<Route path="/dialogs" component={Dialogs}/>*/}
                     {/*<Route path="/profile" component={Profile}/>  */}
                     <Route exact path="/" render={() => <Redirect to="/profile" />} />
-                    <Route path="/dialogs" render={() => <Dialogs dialogsPage={props.state.dialogsPage} dispatch = {props.dispatch}/>}/>
-                    <Route path="/profile" render={() => <Profile profilePage={props.state.profilePage} dispatch = {props.dispatch}/>}/>
+                    <Route path="/dialogs" render={() => <DialogsContainer/>}/>
+                    <Route path="/profile" render={() => <Profile/>} />
                 </div>
             </div>
     );
