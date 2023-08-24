@@ -9,11 +9,12 @@ import {Provider} from "react-redux";
 
 let rerenderEntireTree = (state: AppRootType) => {
     ReactDOM.render(
-        <Provider store={store}>
+
         <BrowserRouter>
+            <Provider store={store}>
             <App/>
-        </BrowserRouter>
-        </Provider>,
+            </Provider>
+        </BrowserRouter>,
         document.getElementById('root')
     );
 }
@@ -26,3 +27,4 @@ store.subscribe(() => {
     const state = store.getState();
     rerenderEntireTree(state)
 });
+

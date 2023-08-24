@@ -10,7 +10,7 @@ const rootReducer = combineReducers({
     sidebar:sideBarReducer
 })
 
-export let store = createStore(rootReducer)
+export const store = createStore(rootReducer)
 
 export type AppRootType  = ReturnType<typeof rootReducer>
 

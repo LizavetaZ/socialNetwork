@@ -14,7 +14,7 @@ export type MyPostsPropsType = {
 
 
 
-const MyPosts = (props: MyPostsPropsType) => {
+export const MyPosts = (props: MyPostsPropsType) => {
 
     let postsElement = props.posts.map(p=> <Post key = {p.id} message = {p.message} like ={p.likesCount}/>)
 
@@ -44,4 +44,3 @@ const MyPosts = (props: MyPostsPropsType) => {
         </div>
     )
 }
-export default MyPosts;
