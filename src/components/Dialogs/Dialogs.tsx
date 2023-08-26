@@ -15,11 +15,11 @@ export const Dialogs = (props: DialogsType) => {
     let dialogsState = props.dialogsPage
 
     let dialogsElement = props.dialogsPage.dialogs.map((d) => {
-        return <DialogItem name={d.name} id={d.id} />;
+        return <DialogItem name={d.name} id={d.id} key = {d.id} />;
     });
 
     let messageElement = props.dialogsPage.messages.map((m) => {
-        return <Message message={m.message} />;
+        return <Message message={m.message} key = {m.id}/>;
     });
 
     let newMessageBody = props.dialogsPage.newMessageBody

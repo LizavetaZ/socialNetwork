@@ -24,24 +24,3 @@ let mapDispatchToProps = (dispatch: Dispatch) => {  //коллбэки
 }
 
 export const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs)
-
-
-// export const DialogsContainer = () => {  //беру store через селектор
-//
-//     const dispatch = useDispatch()
-//
-//     let stateForDialogs = useSelector((state:AppRootType) => state.dialogsPage)
-//
-//     const onChangeMessage = (newMessageText: string) =>{
-//         let action = updateMessageBodyAC(newMessageText);
-//         dispatch(action)
-//     }
-//
-//     const onClickMessageSend = () => {
-//         dispatch(sendMessageAC())
-//     }
-//
-//     return (
-//         <Dialogs updateMessageBody={onChangeMessage} sendMessage={onClickMessageSend} dialogsPage={stateForDialogs}/>
-//     )
-// }

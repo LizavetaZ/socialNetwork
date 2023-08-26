@@ -30,8 +30,7 @@ export const dialogsReducer = (state: DialogsPageType = initialState, action: Ro
             };
         }
         case SEND_MESSAGE: {
-            let body = state.newMessageBody;
-            let newMessage = {id: 6, message: body};
+            const newMessage = {id: 6, message: state.newMessageBody};
             return {
                 ...state,
                 newMessageBody: '',
