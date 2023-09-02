@@ -6,6 +6,8 @@ import {Header} from "./components/Header/Header";
 import {Redirect, Route} from "react-router-dom";
 import {RootACType, RootStateType} from "./Redux/store";
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
+import {Users} from "./components/Users/Users";
+import UsersContainer from "./components/Users/UsersContainer";
 
 type AppPropsType={
     state:RootStateType
@@ -23,9 +25,10 @@ const App = () => {
                 <div className='app-wrapper-content'>
                     {/*<Route path="/dialogs" component={Dialogs}/>*/}
                     {/*<Route path="/profile" component={Profile}/>  */}
-                    <Route path="/" render={() => <Redirect to="/profile" />} />
+                    {/*<Route path="/" render={() => <Redirect to="/profile" />} />*/}
                     <Route path="/dialogs" render={() => <DialogsContainer/>}/>
                     <Route path="/profile" render={() => <Profile/>} />
+                    <Route path="/users" render={() => <UsersContainer/>} />
                 </div>
             </div>
     );

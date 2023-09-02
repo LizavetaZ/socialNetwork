@@ -1,14 +1,14 @@
 import React from 'react';
 import {addPostAC, onPostChangeAC} from "../../../Redux/profile-reducer";
-import {MyPosts, MyPostsPropsType} from "./MyPosts";
+import {MyPosts} from "./MyPosts";
 import {connect} from "react-redux";
-import {RootStateType} from "../../../Redux/store";
 import {Dispatch} from "redux";
+import {AppRootType} from "../../../Redux/redux-store";
 
 
-let mapStateToProps = (state: RootStateType) => {  //данные из стейта
+let mapStateToProps = (state: AppRootType) => {  //данные из стейта
     return {
-        posts:state.profilePage.posts,
+        posts: state.profilePage.posts,
         newPostText: state.profilePage.newPostText
     }
 }

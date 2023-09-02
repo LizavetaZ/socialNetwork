@@ -2,6 +2,7 @@ import React from 'react';
 import {addPostACType, onPostChangeACType, profileReducer} from "./profile-reducer";
 import {dialogsReducer, sendMessageACType, updateMessageBodyACType} from "./dialogs-reducer";
 import {sideBarReducer} from "./sidebar-reducer";
+import {followAC, followACType, setUsersACType, unfollowACType} from "./users-reducer";
 
 export type ProfilePageType = {
     posts: Array<PostType>
@@ -139,7 +140,7 @@ export let store = {
 
 }
 
-export type RootACType = addPostACType | onPostChangeACType | updateMessageBodyACType | sendMessageACType
+export type RootACType = addPostACType | onPostChangeACType | updateMessageBodyACType | sendMessageACType | followACType | unfollowACType | setUsersACType
 
 
 
