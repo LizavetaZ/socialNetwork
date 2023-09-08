@@ -2,9 +2,12 @@ import {PostType, ProfilePageType, RootACType} from "./store";
 
 export type UsersType = {
     id: number,
-    photoUrl:string,
+    photos: {
+        small?: string | null,
+        large?: string | null
+    }
     followed: boolean,
-    fullName: string,
+    name: string,
     status: string,
     location:LocationType
 }
