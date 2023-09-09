@@ -3,11 +3,11 @@ import './App.css';
 import Navbar from "./components/Navbar/Navbar";
 import {Profile} from "./components/Profile/Profile";
 import {Header} from "./components/Header/Header";
-import {Redirect, Route} from "react-router-dom";
-import {RootACType, RootStateType} from "./Redux/store";
+import {Route} from "react-router-dom";
+import { RootStateType} from "./Redux/store";
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
-import {Users} from "./components/Users/Users";
 import UsersContainer from "./components/Users/UsersContainer";
+import {RootACType} from "./Redux/users-reducer";
 
 type AppPropsType={
     state:RootStateType

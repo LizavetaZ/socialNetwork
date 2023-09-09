@@ -1,4 +1,5 @@
-import {PostType, ProfilePageType, RootACType} from "./store";
+import {PostType, ProfilePageType} from "./store";
+import {RootACType} from "./users-reducer";
 
 const ADD_POST = 'ADD-POST'
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT'

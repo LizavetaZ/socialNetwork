@@ -1,4 +1,5 @@
-import {RootACType, RootStateType, SidebarType} from "./store";
+import {SidebarType} from "./store";
+import {RootACType} from "./users-reducer";
 
 const initialState: SidebarType = {}
 
