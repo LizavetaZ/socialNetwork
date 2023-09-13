@@ -22,14 +22,16 @@ export type UsersPageType = {
     users: UsersType[]
     pageSize: number
     totalUsersCount: number,
-    currentPage: number
+    currentPage: number,
+    isFetching: boolean
 }
 
 const initialState: UsersPageType = {
     users: [],
     pageSize: 5,
     totalUsersCount: 0,
-    currentPage: 1
+    currentPage: 1,
+    isFetching: false
 }
 
 export const usersReducer = (state: UsersPageType = initialState, action: RootACType): UsersPageType => {
@@ -48,18 +50,23 @@ export const usersReducer = (state: UsersPageType = initialState, action: RootAC
             return {
         ...state, totalUsersCount: action.payload.totalUsersCount
             }
+        case 'TOGGLE-IS-FETCHING':
+            return {
+                ...state, isFetching: action.payload.isFetching
+            }
         default:
             return state;
     }
 }
 
-export type RootACType = addPostACType | onPostChangeACType | updateMessageBodyACType | sendMessageACType | followACType | unfollowACType | setUsersACType | setCurrentPageACType | ssetTotalUsersCountACType
+export type RootACType = addPostACType | onPostChangeACType | updateMessageBodyACType | sendMessageACType | followACType | unfollowACType | setUsersACType | setCurrentPageACType | setTotalUsersCountACType | isFetchingACType
 
 export type followACType = ReturnType<typeof followAC>
 export type unfollowACType = ReturnType<typeof unfollowAC>
 export type setUsersACType = ReturnType<typeof setUsersAC>
 export type setCurrentPageACType = ReturnType<typeof setCurrentPageAC>
-export type ssetTotalUsersCountACType = ReturnType<typeof setTotalUsersCountAC>
+export type setTotalUsersCountACType = ReturnType<typeof setTotalUsersCountAC>
+export type isFetchingACType = ReturnType<typeof isFetchingAC>
 
 export const followAC = (userId: number) => {
     return {
@@ -102,6 +109,15 @@ export const setTotalUsersCountAC = (totalUsersCount: number) => {
         type: 'SET-TOTAL-USERS-COUNT',
         payload: {
             totalUsersCount
+        }
+    } as const
+}
+
+export const isFetchingAC = (isFetching: boolean) => {
+    return {
+        type: 'TOGGLE-IS-FETCHING',
+        payload: {
+            isFetching
         }
     } as const
 }
