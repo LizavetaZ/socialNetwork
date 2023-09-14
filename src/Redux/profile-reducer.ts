@@ -1,5 +1,6 @@
 import {PostType, ProfilePageType} from "./store";
 import {RootACType} from "./users-reducer";
+import {ProfilePropsType} from "../components/Profile/Profile";
 
 const ADD_POST = 'ADD-POST'
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT'
@@ -11,7 +12,8 @@ const initialState: ProfilePageType = {
         {id: 3, message: 'Bla', likesCount: 11},
         {id: 4, message: 'Da', likesCount: 11}
     ],
-    newPostText: 'it-camasutra'
+    newPostText: 'it-camasutra',
+    profile: null
 }
 
 export const profileReducer = (state: ProfilePageType = initialState, action: RootACType): ProfilePageType => {
@@ -30,6 +32,11 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ro
                 newPostText: action.payload.newText
             };
         }
+        case "SET-USER-PROFILE": {
+            return {
+                ...state, profile: action.payload.profile
+            }
+        }
         default:
             return state;
     }
@@ -38,6 +45,7 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ro
 
 export type addPostACType = ReturnType<typeof addPostAC>
 export type onPostChangeACType = ReturnType<typeof onPostChangeAC>
+export type setUserProfileACType = ReturnType<typeof setUserProfile>
 
 export const addPostAC = () => {
     return {
@@ -50,6 +58,15 @@ export const onPostChangeAC = (newText: string) => {
         type: UPDATE_NEW_POST_TEXT,
         payload: {
             newText: newText
+        }
+    } as const;
+};
+
+export const setUserProfile = (profile: ProfilePropsType) => {
+    return {
+        type: 'SET-USER-PROFILE',
+        payload: {
+            profile
         }
     } as const;
 };

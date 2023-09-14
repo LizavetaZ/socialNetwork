@@ -3,12 +3,12 @@ import {connect} from 'react-redux';
 import {AppRootType} from '../../Redux/redux-store';
 import {
     follow,
-    toggleIsFetching,
     setCurrentPage,
     setTotalUsersCount,
     setUsers,
+    toggleIsFetching,
     unfollow,
-    UsersType, toggleIsFetchingACType
+    UsersType
 } from '../../Redux/users-reducer';
 import axios from 'axios';
 import {Users} from './Users';
