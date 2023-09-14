@@ -1,5 +1,6 @@
 import {addPostACType, onPostChangeACType, setUserProfileACType} from "./profile-reducer";
 import {sendMessageACType, updateMessageBodyACType} from "./dialogs-reducer";
+import {setAuthUserData, setUserDataType} from "./auth-reducer";
 
 export type UsersType = {
     id: number,
@@ -59,7 +60,7 @@ export const usersReducer = (state: UsersPageType = initialState, action: RootAC
     }
 }
 
-export type RootACType = addPostACType | onPostChangeACType | updateMessageBodyACType | sendMessageACType | followACType | unfollowACType | setUsersACType | setCurrentPageACType | setTotalUsersCountACType | toggleIsFetchingACType | setUserProfileACType
+export type RootACType = addPostACType | onPostChangeACType | updateMessageBodyACType | sendMessageACType | followACType | unfollowACType | setUsersACType | setCurrentPageACType | setTotalUsersCountACType | toggleIsFetchingACType | setUserProfileACType | setUserDataType
 
 export type followACType = ReturnType<typeof follow>
 export type unfollowACType = ReturnType<typeof unfollow>
