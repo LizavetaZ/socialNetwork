@@ -1,6 +1,8 @@
 import {PostType, ProfilePageType} from "./store";
 import {RootACType} from "./users-reducer";
 import {ProfilePropsType} from "../components/Profile/Profile";
+import {Dispatch} from "redux";
+import {usersAPI} from "../api/api";
 
 const ADD_POST = 'ADD-POST'
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT'
@@ -70,3 +72,10 @@ export const setUserProfile = (profile: ProfilePropsType) => {
         }
     } as const;
 };
+
+export const getUserProfileCT = (userId: number) => (dispatch: Dispatch) => {
+    usersAPI.getProfile(userId)
+        .then(response => {
+            dispatch(setUserProfile(response.data))
+        })
+}

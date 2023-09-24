@@ -1,5 +1,7 @@
 import {AppRootType} from "./redux-store";
 import {RootACType} from "./users-reducer";
+import {authAPI} from "../api/api";
+import {Dispatch} from "redux";
 
 const initialState: AuthEnterType = {
     userId: null,
@@ -37,5 +39,15 @@ export const setAuthUserData = (userId: number, email: string, login: string) =>
             userId, email, login
         }
     } as const
+}
+
+export const getAuthUserDataCT = () => (dispatch: Dispatch) => {
+    authAPI.me()
+        .then(response => {
+            if (response.data.resultCode === 0) {
+                let {id, email, login} = response.data.data
+               dispatch(setAuthUserData(id, email, login))
+            }
+        })
 }
 
