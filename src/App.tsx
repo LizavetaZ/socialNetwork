@@ -4,10 +4,12 @@ import Navbar from "./components/Navbar/Navbar";
 import {Route} from "react-router-dom";
 import {RootStateType} from "./Redux/store";
 import {DialogsContainer} from "./components/Dialogs/DialogsContainer";
-import UsersContainer from "./components/Users/UsersContainer";
 import {RootACType} from "./Redux/users-reducer";
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
+import {useSelector} from "react-redux";
+import {AppRootType} from "./Redux/redux-store";
+import UsersContainer from "./components/Users/UsersContainer";
 
 type AppPropsType={
     state:RootStateType
@@ -17,6 +19,7 @@ type AppPropsType={
 }
 
 const App = () => {
+
     return (
 
             <div className='app-wrapper'>

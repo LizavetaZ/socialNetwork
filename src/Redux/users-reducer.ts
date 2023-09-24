@@ -1,6 +1,8 @@
 import {addPostACType, onPostChangeACType, setUserProfileACType} from "./profile-reducer";
 import {sendMessageACType, updateMessageBodyACType} from "./dialogs-reducer";
 import {setAuthUserData, setUserDataType} from "./auth-reducer";
+import {Dispatch} from "redux";
+import {usersAPI} from "../api/api";
 
 export type UsersType = {
     id: number,
@@ -24,18 +26,20 @@ export type UsersPageType = {
     pageSize: number
     totalUsersCount: number,
     currentPage: number,
-    isFetching: boolean
+    isFetching: boolean,
+    followingInProgress: Array<number>
 }
 
-const initialState: UsersPageType = {
+export const initialUserState: UsersPageType = {
     users: [],
     pageSize: 5,
     totalUsersCount: 0,
     currentPage: 1,
-    isFetching: false
+    isFetching: false,
+    followingInProgress: []
 }
 
-export const usersReducer = (state: UsersPageType = initialState, action: RootACType): UsersPageType => {
+export const usersReducer = (state: UsersPageType = initialUserState, action: RootACType): UsersPageType => {
     switch (action.type) {
         case "FOLLOW-USER":
             return {...state, users: state.users.map(u => u.id === action.payload.userId ? {...u, followed: true} : u)}
@@ -55,21 +59,27 @@ export const usersReducer = (state: UsersPageType = initialState, action: RootAC
             return {
                 ...state, isFetching: action.payload.isFetching
             }
+        case 'TOGGLE-IS-PROGRESSED':
+            return {
+                ...state, followingInProgress: action.payload.isFetching ? [...state.followingInProgress, action.payload.userId] :
+                    [...state.followingInProgress.filter(id=> id!== action.payload.userId)]
+            }
         default:
             return state;
     }
 }
 
-export type RootACType = addPostACType | onPostChangeACType | updateMessageBodyACType | sendMessageACType | followACType | unfollowACType | setUsersACType | setCurrentPageACType | setTotalUsersCountACType | toggleIsFetchingACType | setUserProfileACType | setUserDataType
+export type RootACType = addPostACType | onPostChangeACType | updateMessageBodyACType | sendMessageACType | followACType | unfollowACType | setUsersACType | setCurrentPageACType | setTotalUsersCountACType | toggleIsFetchingACType | setUserProfileACType | setUserDataType | toggleIsProgressedACType
 
-export type followACType = ReturnType<typeof follow>
-export type unfollowACType = ReturnType<typeof unfollow>
+export type followACType = ReturnType<typeof followSuccess>
+export type unfollowACType = ReturnType<typeof unfollowSuccess>
 export type setUsersACType = ReturnType<typeof setUsers>
 export type setCurrentPageACType = ReturnType<typeof setCurrentPage>
 export type setTotalUsersCountACType = ReturnType<typeof setTotalUsersCount>
 export type toggleIsFetchingACType = ReturnType<typeof toggleIsFetching>
+export type toggleIsProgressedACType = ReturnType<typeof toggleIsProgressed>
 
-export const follow = (userId: number) => {
+export const followSuccess = (userId: number) => {
     return {
         type: 'FOLLOW-USER',
         payload: {
@@ -78,7 +88,7 @@ export const follow = (userId: number) => {
     } as const
 }
 
-export const unfollow = (userId: number) => {
+export const unfollowSuccess = (userId: number) => {
     return {
         type: 'UNFOLLOW-USER',
         payload: {
@@ -121,4 +131,45 @@ export const toggleIsFetching = (isFetching: boolean) => {
             isFetching
         }
     } as const
+}
+
+export const toggleIsProgressed = (isFetching: boolean, userId: number) => {
+    return {
+        type: 'TOGGLE-IS-PROGRESSED',
+        payload: {
+            isFetching, userId
+        }
+    } as const
+}
+
+export const getUsersCT = (currentPage: number, pageSize: number) => (dispatch: Dispatch) => {
+    dispatch(toggleIsFetching(true))
+    usersAPI.getUsers(currentPage, pageSize)
+        .then(data => {
+            dispatch(toggleIsFetching(false))
+            dispatch(setUsers(data.items))
+            dispatch(setTotalUsersCount(data.totalCount))
+        })
+}
+
+export const unfollowUsersCT = (userId: number) => (dispatch: Dispatch) => {
+    dispatch(toggleIsProgressed(true, userId))
+    usersAPI.unfollow(userId)
+        .then(response => {
+            if (response.data.resultCode == 0) {
+                dispatch(unfollowSuccess(userId))
+            }
+            dispatch(toggleIsProgressed(false, userId))
+        })
+}
+
+export const followUsersCT = (userId: number) => (dispatch: Dispatch) => {
+    dispatch(toggleIsProgressed(true, userId))
+    usersAPI.follow(userId)
+        .then(response => {
+            if (response.data.resultCode == 0) {
+                dispatch(followSuccess(userId))
+            }
+            dispatch(toggleIsProgressed(false, userId))
+        })
 }

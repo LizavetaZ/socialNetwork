@@ -1,9 +1,10 @@
-import {combineReducers, createStore} from "redux";
+import {applyMiddleware, combineReducers, createStore} from "redux";
 import {addPostACType, onPostChangeACType, profileReducer} from "./profile-reducer";
 import {dialogsReducer, sendMessageACType, updateMessageBodyACType} from "./dialogs-reducer";
 import {sideBarReducer} from "./sidebar-reducer";
 import {followACType, setUsersACType, unfollowACType, usersReducer} from "./users-reducer";
 import {authReducer} from "./auth-reducer";
+import thunk from "redux-thunk";
 
 
 const rootReducer = combineReducers({
@@ -14,7 +15,7 @@ const rootReducer = combineReducers({
     auth: authReducer
 })
 
-export const store = createStore(rootReducer)
+export const store = createStore(rootReducer, applyMiddleware(thunk))
 
 // @ts-ignore
 window.store = store
