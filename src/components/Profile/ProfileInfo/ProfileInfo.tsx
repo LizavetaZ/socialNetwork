@@ -6,6 +6,7 @@ import {Preloader} from "../../common/Preloader/Preloader";
 export const ProfileInfo = (props: ProfilePropsType) => {
 
     if (!props.profile) {
+        debugger
         return <Preloader/>
     }
     return (<div>

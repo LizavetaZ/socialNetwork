@@ -2,11 +2,12 @@ import React from 'react';
 import {sendMessageAC, updateMessageBodyAC} from "../../Redux/dialogs-reducer";
 import {Dialogs} from "./Dialogs";
 import {connect} from "react-redux";
-import {RootStateType} from "../../Redux/store";
 import {Dispatch} from "redux";
+import {AppRootType} from "../../Redux/redux-store";
+import {WithAuthRedirect} from "../../hoc/WithAuthRedirect";
 
 
-let mapStateToProps = (state: RootStateType) => {  //данные из стейта
+let mapStateToProps = (state: AppRootType) => {  //данные из стейта
     return {
         dialogsPage:state.dialogsPage
     }
@@ -23,4 +24,6 @@ let mapDispatchToProps = (dispatch: Dispatch) => {  //коллбэки
     }
 }
 
-export const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs)
+let AuthRedirectComponent = WithAuthRedirect(Dialogs)
+
+export const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(AuthRedirectComponent)

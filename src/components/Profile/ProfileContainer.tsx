@@ -1,14 +1,28 @@
 import React from 'react';
-import {Profile} from "./Profile";
+import {Profile} from "../Profile/Profile";
 import {connect} from "react-redux";
 import {AppRootType} from "../../Redux/redux-store";
 import {getUserProfileCT} from "../../Redux/profile-reducer";
-import {withRouter} from "react-router-dom";
+import {RouteComponentProps, withRouter} from "react-router-dom";
+import {WithAuthRedirect} from "../../hoc/WithAuthRedirect";
 
-export type ProfileContainerPropsType = {
-    setUserProfile:(profile: null | {}) => void
+
+export type PathParamsType = {
+    userId?: string
+}
+
+export type MapStateToPropsType = {
     profile: null | ProfileType
 }
+
+export type MapDispatchToPropsType = {
+    getUserProfileCT: (userId: number) => void
+}
+
+type OwnPropsType = MapStateToPropsType & MapDispatchToPropsType
+
+export type ProfileContainerPropsType = RouteComponentProps<PathParamsType> & OwnPropsType
+
 
 export type ProfileType = {
     userId: number
@@ -19,7 +33,7 @@ export type ProfileType = {
         github: string
         vk: string
         facebook: string
-        instagram:string
+        instagram: string
         twitter: string
         website: string
         youtube: string
@@ -31,29 +45,35 @@ export type ProfileType = {
     }
 }
 
-class ProfileContainer extends React.Component<any, any>{
+class ProfileContainer extends React.Component<ProfileContainerPropsType> {
     componentDidMount() {
+        debugger
         let userId = this.props.match.params.userId
-        if(!userId) {
-            userId = 2
+        if (!userId) {
+            userId = '2'
         }
 
-        this.props.getUserProfileCT(userId)
+        this.props.getUserProfileCT(Number(userId))
     }
 
     render() {
+        debugger
         return (
-                <Profile {...this.props} profile = {this.props.profile}/>
+            <Profile {...this.props} profile={this.props.profile}/>
         )
     }
 }
+
+
+
+let AuthRedirectComponent = WithAuthRedirect(ProfileContainer)
 
 let mapStateToProps = (state: AppRootType) => ({
     profile: state.profilePage.profile
 })
 
-let WithUrlDataContainerComponent = withRouter(ProfileContainer)
 
-export default connect(mapStateToProps, {
-    getUserProfileCT
-})(WithUrlDataContainerComponent)
+let WithUrlDataContainerComponent = withRouter(AuthRedirectComponent)
+
+
+export default connect(mapStateToProps, {getUserProfileCT})(WithUrlDataContainerComponent)

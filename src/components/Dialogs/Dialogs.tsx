@@ -3,8 +3,9 @@ import s from './Dialogs.module.css'
 import {DialogItem} from "./DialogItem/DialogItem";
 import {Message} from "./Message/Message";
 import {DialogsPageType} from "../../Redux/store";
+import {Redirect} from "react-router-dom";
 
-type DialogsType = {
+export type DialogsType = {
     dialogsPage:DialogsPageType
     updateMessageBody:(newMessageText: string) => void
     sendMessage: () => void

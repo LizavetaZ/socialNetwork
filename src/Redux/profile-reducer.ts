@@ -74,6 +74,7 @@ export const setUserProfile = (profile: ProfilePropsType) => {
 };
 
 export const getUserProfileCT = (userId: number) => (dispatch: Dispatch) => {
+    debugger
     usersAPI.getProfile(userId)
         .then(response => {
             dispatch(setUserProfile(response.data))
