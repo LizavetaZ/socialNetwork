@@ -1,6 +1,6 @@
-import {addPostACType, onPostChangeACType, setUserProfileACType} from "./profile-reducer";
+import {addPostACType, onPostChangeACType, setStatusProfileType, setUserProfileACType} from "./profile-reducer";
 import {sendMessageACType, updateMessageBodyACType} from "./dialogs-reducer";
-import {setAuthUserData, setUserDataType} from "./auth-reducer";
+import {setUserDataType} from "./auth-reducer";
 import {Dispatch} from "redux";
 import {usersAPI} from "../api/api";
 
@@ -69,7 +69,7 @@ export const usersReducer = (state: UsersPageType = initialUserState, action: Ro
     }
 }
 
-export type RootACType = addPostACType | onPostChangeACType | updateMessageBodyACType | sendMessageACType | followACType | unfollowACType | setUsersACType | setCurrentPageACType | setTotalUsersCountACType | toggleIsFetchingACType | setUserProfileACType | setUserDataType | toggleIsProgressedACType
+export type RootACType = addPostACType | onPostChangeACType | updateMessageBodyACType | sendMessageACType | followACType | unfollowACType | setUsersACType | setCurrentPageACType | setTotalUsersCountACType | toggleIsFetchingACType | setUserProfileACType | setUserDataType | toggleIsProgressedACType | setStatusProfileType
 
 export type followACType = ReturnType<typeof followSuccess>
 export type unfollowACType = ReturnType<typeof unfollowSuccess>
@@ -173,3 +173,5 @@ export const followUsersCT = (userId: number) => (dispatch: Dispatch) => {
             dispatch(toggleIsProgressed(false, userId))
         })
 }
+
+
