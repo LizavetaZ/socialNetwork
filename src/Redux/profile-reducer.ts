@@ -14,7 +14,6 @@ const initialState: ProfilePageType = {
         {id: 3, message: 'Bla', likesCount: 11},
         {id: 4, message: 'Da', likesCount: 11}
     ],
-    newPostText: 'it-camasutra',
     profile: null,
     status: ''
 }
@@ -22,17 +21,10 @@ const initialState: ProfilePageType = {
 export const profileReducer = (state: ProfilePageType = initialState, action: RootACType): ProfilePageType => {
     switch (action.type) {
         case ADD_POST: {
-            let newPost: PostType = {id: 5, message: state.newPostText, likesCount: 0};
+            let newPost: PostType = {id: 5, message: action.newPostText, likesCount: 0};
             return {
                 ...state,
-                posts: [...state.posts, newPost],
-                newPostText: ""
-            };
-        }
-        case UPDATE_NEW_POST_TEXT: {
-            return {
-                ...state,
-                newPostText: action.payload.newText
+                posts: [...state.posts, newPost]
             };
         }
         case "SET-USER-PROFILE": {
@@ -52,26 +44,16 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ro
 
 
 export type addPostACType = ReturnType<typeof addPostAC>
-export type onPostChangeACType = ReturnType<typeof onPostChangeAC>
 export type setUserProfileACType = ReturnType<typeof setUserProfile>
 export type setStatusProfileType = ReturnType<typeof setStatusProfile>
 
 
-export const addPostAC = () => {
+export const addPostAC = (newPostText:string) => {
     return {
-        type: ADD_POST
+        type: ADD_POST,
+        newPostText
     } as const
 }
-
-export const onPostChangeAC = (newText: string) => {
-    return {
-        type: UPDATE_NEW_POST_TEXT,
-        payload: {
-            newText: newText
-        }
-    } as const;
-};
-
 export const setUserProfile = (profile: ProfilePropsType) => {
     return {
         type: 'SET-USER-PROFILE',

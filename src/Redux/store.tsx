@@ -6,14 +6,13 @@ import {RootACType} from "./users-reducer";
 
 export type ProfilePageType = {
     posts: Array<PostType>
-    newPostText: string
     profile: null | {}
     status: string
 }
 export type DialogsPageType = {
     dialogs: DialogType[]
     messages: MessageType[]
-    newMessageBody: string
+    newMessageBody?: string
 }
 export type SidebarType = {}
 export type RootStateType = {
