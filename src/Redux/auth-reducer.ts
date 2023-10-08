@@ -1,6 +1,6 @@
-import {AppRootType} from "./redux-store";
 import {RootACType} from "./users-reducer";
 import {authAPI} from "../api/api";
+import {ThunkType} from "./redux-store";
 import {Dispatch} from "redux";
 
 const initialState: AuthEnterType = {
@@ -20,7 +20,7 @@ export type AuthEnterType = {
 export const authReducer = (state = initialState, action: RootACType): AuthEnterType => {
     switch (action.type) {
         case "SET-AUTH-USER-DATA": {
-            return {...state, ...action.payload, isAuth: true}
+            return {...state, ...action.payload}
         }
         default:
             return state
@@ -32,22 +32,40 @@ export const authReducer = (state = initialState, action: RootACType): AuthEnter
 
 export type setUserDataType = ReturnType<typeof setAuthUserData>
 
-export const setAuthUserData = (userId: number, email: string, login: string) => {
+export const setAuthUserData = (userId: number | null, email: string | null, login: string | null, isAuth: boolean) => {
     return {
         type: 'SET-AUTH-USER-DATA',
         payload: {
-            userId, email, login
+            userId, email, login, isAuth
         }
     } as const
 }
 
-export const getAuthUserDataCT = () => (dispatch: Dispatch) => {
+export const getAuthUserDataCT = ():ThunkType => (dispatch) => {
     authAPI.me()
         .then(response => {
             if (response.data.resultCode === 0) {
                 let {id, email, login} = response.data.data
-               dispatch(setAuthUserData(id, email, login))
+               dispatch(setAuthUserData(id, email, login, true))
             }
         })
 }
 
+export const loginCT = (email:string, password:string, rememberMe:boolean): ThunkType => (dispatch) => {
+    authAPI.login(email, password, rememberMe)
+        .then(response => {
+            if (response.data.resultCode === 0) {
+                dispatch(getAuthUserDataCT())
+            }
+        })
+}
+
+export const logoutCT = (): ThunkType => (dispatch) => {
+    authAPI.logout()
+        .then(response => {
+            if (response.data.resultCode === 0) {
+                debugger
+                dispatch(setAuthUserData(null, null, null, false))
+            }
+        })
+}

@@ -1,10 +1,10 @@
-import {applyMiddleware, combineReducers, createStore} from "redux";
+import {AnyAction, applyMiddleware, combineReducers, createStore} from "redux";
 import {addPostACType, profileReducer} from "./profile-reducer";
 import {dialogsReducer, sendMessageACType} from "./dialogs-reducer";
 import {sideBarReducer} from "./sidebar-reducer";
 import {followACType, setUsersACType, unfollowACType, usersReducer} from "./users-reducer";
 import {authReducer} from "./auth-reducer";
-import thunk from "redux-thunk";
+import thunk, {ThunkAction} from "redux-thunk";
 import {reducer as formReducer} from 'redux-form'
 
 
@@ -25,3 +25,5 @@ window.store = store
 export type AppRootType  = ReturnType<typeof rootReducer>
 
 export type RootACType = addPostACType | sendMessageACType | followACType | unfollowACType | setUsersACType
+
+export type ThunkType = ThunkAction<void, AppRootType, unknown, AnyAction>;
