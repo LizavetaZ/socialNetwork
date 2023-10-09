@@ -41,12 +41,12 @@ export const setAuthUserData = (userId: number | null, email: string | null, log
     } as const
 }
 
-export const getAuthUserDataCT = ():ThunkType => (dispatch) => {
-    authAPI.me()
+export const getAuthUserDataCT = (): ThunkType => (dispatch) => {
+    return authAPI.me()
         .then(response => {
             if (response.data.resultCode === 0) {
-                let {id, email, login} = response.data.data
-               dispatch(setAuthUserData(id, email, login, true))
+                let { id, email, login } = response.data.data
+                dispatch(setAuthUserData(id, email, login, true))
             }
         })
 }

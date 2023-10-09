@@ -7,10 +7,6 @@ import {getAuthUserDataCT, logoutCT} from '../../Redux/auth-reducer';
 import {AppRootType} from '../../Redux/redux-store';
 
 class HeaderContainer extends React.Component<any, any> {
-    componentDidMount() {
-        this.props.getAuthUserDataCT();
-    }
-
     render() {
         return <Header {...this.props as HeaderPropsType} />;
     }
@@ -24,7 +20,6 @@ const mapStateToProps = (state: AppRootType) => ({
 const mapDispatchToProps = (dispatch: ThunkDispatch<AppRootType, unknown, AnyAction>) => {
     return bindActionCreators(
         {
-            getAuthUserDataCT,
             logoutCT,
         },
         dispatch

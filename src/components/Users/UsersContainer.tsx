@@ -68,7 +68,7 @@ const mapStateToProps = (state: AppRootType) => {
     }
 }
 
-export default compose<React.ComponentType>(WithAuthRedirect,connect(mapStateToProps, {
+export default compose<React.ComponentType>(connect(mapStateToProps, {
     followSuccess,
     unfollowSuccess,
     setCurrentPage,toggleIsProgressed, getUsersCT, followUsersCT, unfollowUsersCT}))(UsersContainer)

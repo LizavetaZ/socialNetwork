@@ -1,6 +1,6 @@
 import React from 'react';
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
-import {Dispatch} from "redux";
+import {compose, Dispatch} from "redux";
 import {Input} from "../common/FormsControls/FormsControls";
 import {required} from "../../utils/validators/validators";
 import {connect} from "react-redux";
@@ -8,6 +8,7 @@ import {loginCT, logoutCT} from "../../Redux/auth-reducer";
 import {Redirect} from "react-router-dom";
 import {AppRootType} from "../../Redux/redux-store";
 import s from '../common/FormsControls/FormsControls.module.css'
+import {WithAuthRedirect} from "../../hoc/WithAuthRedirect";
 
 type FormDataType = {
     login: string
@@ -84,3 +85,5 @@ let mapStateToProps = (state: AppRootType) => {  //данные из стейт�
     }
 }
 export default connect(mapStateToProps,{loginCT, logoutCT})(Login)
+
+

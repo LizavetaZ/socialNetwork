@@ -1,9 +1,9 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import './index.css';
 import App from "./App";
 import {BrowserRouter} from "react-router-dom";
-import {AppRootType, store} from './Redux/redux-store'
+import {store} from './Redux/redux-store'
 import {Provider} from "react-redux";
 
 
