@@ -15,7 +15,7 @@ export type PathParamsType = {
 export type MapStateToPropsType = {
     profile: null | ProfileType
     status: string
-    authorizedUserId:number
+    authorizedUserId: number | null
     isAuth: boolean
 }
 
@@ -53,9 +53,11 @@ export type ProfileType = {
 
 class ProfileContainer extends React.Component<ProfileContainerPropsType> {
     componentDidMount() {
+
         let userId = this.props.match.params.userId
         if (!userId) {
-            userId = this.props.authorizedUserId.toString()
+            debugger
+            userId = this.props.authorizedUserId?.toString() || '0';
             if (!userId) {
                 this.props.history.push('/login')
             }
@@ -82,6 +84,6 @@ let mapStateToProps = (state: AppRootType) => ({
 
 
 export default compose<React.ComponentType>(
-    connect(mapStateToProps, {getUserProfileTC, getUserStatusTC, updateStatusTC}),
-    withRouter
-)(ProfileContainer)
+    withRouter, WithAuthRedirect,
+    connect(mapStateToProps, {getUserProfileTC, getUserStatusTC, updateStatusTC})
+)(ProfileContainer);

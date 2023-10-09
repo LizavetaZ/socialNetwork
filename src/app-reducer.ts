@@ -31,7 +31,11 @@ export const initializedSuccess = () => {
     } as const
 }
 
-export const initializeApp = (): ThunkType => async(dispatch) => {
-   await dispatch(getAuthUserDataCT())
-        dispatch(initializedSuccess())
+export const initializeApp = (): ThunkType => {
+    return (dispatch) => {
+        let result = dispatch(getAuthUserDataCT())
+        result.then(() => {
+            dispatch(initializedSuccess())
+        })
+    };
 }

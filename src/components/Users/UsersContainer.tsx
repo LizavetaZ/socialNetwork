@@ -2,17 +2,27 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {AppRootType} from '../../Redux/redux-store';
 import {
-    followSuccess, followUsersCT,
+    followSuccess,
+    followUsersCT,
     getUsersCT,
     setCurrentPage,
     toggleIsProgressed,
-    unfollowSuccess, unfollowUsersCT,
+    unfollowSuccess,
+    unfollowUsersCT,
     UsersType
 } from '../../Redux/users-reducer';
 import {Users} from './Users';
 import {Preloader} from "../common/Preloader/Preloader";
-import {WithAuthRedirect} from "../../hoc/WithAuthRedirect";
 import {compose} from "redux";
+import {
+    getCurrentPage,
+    getFollowingInProgress,
+    getIsFetching,
+    getPageSize,
+    getTotalUsersCount,
+    getUsers
+} from "../../Redux/users-selectors";
+import {WithAuthRedirect} from "../../hoc/WithAuthRedirect";
 
 export type UsersAPIProps = {
     users: UsersType[];
@@ -57,18 +67,33 @@ export class UsersContainer extends React.Component<UsersAPIProps, any> {
     }
 }
 
+// const mapStateToProps = (state: AppRootType) => {
+//     return {
+//         users: state.usersPage.users,
+//         pageSize: state.usersPage.pageSize,
+//         totalUsersCount: state.usersPage.totalUsersCount,
+//         currentPage: state.usersPage.currentPage,
+//         isFetching: state.usersPage.isFetching,
+//         followingInProgress: state.usersPage.followingInProgress
+//     }
+// }
+
 const mapStateToProps = (state: AppRootType) => {
     return {
-        users: state.usersPage.users,
-        pageSize: state.usersPage.pageSize,
-        totalUsersCount: state.usersPage.totalUsersCount,
-        currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching,
-        followingInProgress: state.usersPage.followingInProgress
+        users: getUsers(state),
+        pageSize: getPageSize(state),
+        totalUsersCount: getTotalUsersCount(state),
+        currentPage: getCurrentPage(state),
+        isFetching: getIsFetching(state),
+        followingInProgress: getFollowingInProgress(state)
     }
 }
 
-export default compose<React.ComponentType>(connect(mapStateToProps, {
+
+
+export default compose(
+    // WithAuthRedirect,
+    connect(mapStateToProps, {
     followSuccess,
     unfollowSuccess,
     setCurrentPage,toggleIsProgressed, getUsersCT, followUsersCT, unfollowUsersCT}))(UsersContainer)

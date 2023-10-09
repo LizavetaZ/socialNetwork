@@ -35,7 +35,7 @@ type LoginPropsType = {
 
 const Login = (props: LoginPropsType) => {
     const onSubmit = (formData: FormDataType) => {
-        props.loginCT(formData.login, formData.password, formData.rememberMe)
+        props.loginCT(formData.login, formData.password, formData.rememberMe);
     }
 
     if (props.isAuth) {
