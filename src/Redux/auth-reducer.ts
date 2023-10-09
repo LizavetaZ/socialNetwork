@@ -1,7 +1,7 @@
 import {RootACType} from "./users-reducer";
 import {authAPI} from "../api/api";
 import {ThunkType} from "./redux-store";
-import {Dispatch} from "redux";
+import {stopSubmit} from "redux-form";
 
 const initialState: AuthEnterType = {
     userId: null,
@@ -52,10 +52,13 @@ export const getAuthUserDataCT = ():ThunkType => (dispatch) => {
 }
 
 export const loginCT = (email:string, password:string, rememberMe:boolean): ThunkType => (dispatch) => {
-    authAPI.login(email, password, rememberMe)
+       authAPI.login(email, password, rememberMe)
         .then(response => {
             if (response.data.resultCode === 0) {
                 dispatch(getAuthUserDataCT())
+            } else {
+               let message = response.data.messages.length > 0 ? response.data.messages[0] : 'Some error'
+                dispatch(stopSubmit('login', {_error:message}))
             }
         })
 }
@@ -64,7 +67,6 @@ export const logoutCT = (): ThunkType => (dispatch) => {
     authAPI.logout()
         .then(response => {
             if (response.data.resultCode === 0) {
-                debugger
                 dispatch(setAuthUserData(null, null, null, false))
             }
         })
