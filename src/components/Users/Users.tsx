@@ -3,7 +3,6 @@ import styles from "./Users.module.css";
 import userPhoto from "../../assets/images/user.png";
 import {UsersType} from "../../Redux/users-reducer";
 import {NavLink} from "react-router-dom";
-
 type UsersPropsType = {
     users: UsersType[];
     pageSize: number,
@@ -18,8 +17,8 @@ type UsersPropsType = {
 }
 
 
-export const Users = (props: UsersPropsType) => {
-
+export const Users = React.memo((props: UsersPropsType) => {
+    console.log('users')
     let pagesCount =Math.ceil(props.totalUsersCount/props.pageSize)
 
     let pages = []
@@ -65,4 +64,4 @@ export const Users = (props: UsersPropsType) => {
                 </div>)}
         </div>
     );
-};
+});

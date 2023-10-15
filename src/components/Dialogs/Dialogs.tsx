@@ -14,8 +14,8 @@ export type DialogsType = {
     isAuth: boolean
 }
 
-export const Dialogs = (props: DialogsType) => {
-
+export const Dialogs =  (props: DialogsType) => {
+    console.log('dialogs')
     let dialogsState = props.dialogsPage
 
     let dialogsElement = props.dialogsPage.dialogs.map((d) => {

@@ -56,7 +56,6 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType> {
 
         let userId = this.props.match.params.userId
         if (!userId) {
-            debugger
             userId = this.props.authorizedUserId?.toString() || '0';
             if (!userId) {
                 this.props.history.push('/login')
