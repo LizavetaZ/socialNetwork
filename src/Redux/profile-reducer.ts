@@ -20,7 +20,7 @@ const initialState: ProfilePageType = {
 
 export const profileReducer = (state: ProfilePageType = initialState, action: RootACType): ProfilePageType => {
     switch (action.type) {
-        case ADD_POST: {
+        case 'ADD-POST': {
             let newPost: PostType = {id: 5, message: action.newPostText, likesCount: 0};
             return {
                 ...state,
@@ -37,6 +37,9 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ro
                 ...state, status: action.payload.status
             }
         }
+        case "DELETE-POST": {
+            return {...state, posts: state.posts.filter(p => p.id !== action.id)}
+        }
         default:
             return state;
     }
@@ -46,14 +49,23 @@ export const profileReducer = (state: ProfilePageType = initialState, action: Ro
 export type addPostACType = ReturnType<typeof addPostAC>
 export type setUserProfileACType = ReturnType<typeof setUserProfile>
 export type setStatusProfileType = ReturnType<typeof setStatusProfile>
+export type deletePostACType = ReturnType<typeof deletePostAC>
 
 
 export const addPostAC = (newPostText:string) => {
     return {
-        type: ADD_POST,
+        type: 'ADD-POST',
         newPostText
     } as const
 }
+
+export const deletePostAC = (id: number) => {
+    return {
+        type: 'DELETE-POST',
+        id
+    } as const
+}
+
 export const setUserProfile = (profile: ProfilePropsType) => {
     return {
         type: 'SET-USER-PROFILE',
