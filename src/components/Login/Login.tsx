@@ -1,14 +1,13 @@
-import React from 'react';
+import React, {FC} from 'react';
 import {Field, InjectedFormProps, reduxForm} from "redux-form";
-import {compose, Dispatch} from "redux";
-import {Input} from "../common/FormsControls/FormsControls";
-import {required} from "../../utils/validators/validators";
+import {Dispatch} from "redux";
+import {Input, createField} from "../common/FormsControls/FormsControls";
+import {required} from "utils/validators/validators";
 import {connect} from "react-redux";
-import {loginCT, logoutCT} from "../../Redux/auth-reducer";
+import {loginCT, logoutCT} from "Redux/auth-reducer";
 import {Redirect} from "react-router-dom";
-import {AppRootType} from "../../Redux/redux-store";
+import {AppRootType} from "Redux/redux-store";
 import s from '../common/FormsControls/FormsControls.module.css'
-import {WithAuthRedirect} from "../../hoc/WithAuthRedirect";
 
 type FormDataType = {
     login: string
@@ -25,7 +24,6 @@ export type DispatchPropsType = {
     onSubmit:(data: FormDataType, dispatch: Dispatch, props: OwnPropsType) => void
 }
 
-type MixFormPropsType = OwnPropsType & DispatchPropsType & InjectedFormProps<FormDataType, OwnPropsType>
 
 type LoginPropsType = {
     loginCT:(email:string, password:string, rememberMe:boolean) => void
@@ -33,12 +31,12 @@ type LoginPropsType = {
     isAuth: boolean
 }
 
-const Login = (props: LoginPropsType) => {
+const Login: FC<LoginPropsType> = ({loginCT, isAuth }) => {
     const onSubmit = (formData: FormDataType) => {
-        props.loginCT(formData.login, formData.password, formData.rememberMe);
+        loginCT(formData.login, formData.password, formData.rememberMe);
     }
 
-    if (props.isAuth) {
+    if (isAuth) {
         return <Redirect to={'/profile'}/>
     }
 
@@ -54,16 +52,27 @@ const Login = (props: LoginPropsType) => {
 const LoginForm: React.FC<InjectedFormProps<FormDataType>> = (props) => {
     return (
         <form onSubmit={props.handleSubmit}>
-            <div>
-                <Field placeholder={'email'} name={'login'} component = {Input} validate = {[required]}/>
-            </div>
-            <div>
-                <Field placeholder={'password'} name={'password'} component = {Input} validate = {[required]}
-                type = {'password'}/>
-            </div>
-            <div>
-                <Field type={"checkbox"} name={'rememberMe'} component = {Input}/>remember me
-            </div>
+                {createField({
+                    placeholder: 'email',
+                    name: 'login',
+                    validators: [required],
+                    component: Input
+                })}
+                {createField({
+                    placeholder: 'password',
+                    name: 'password',
+                    validators: [required],
+                    component: Input,
+                    type: 'password'
+                })}
+                {createField({
+                    placeholder: 'password',
+                    name: 'rememberMe',
+                    validators: [],
+                    component: Input,
+                    type: 'checkbox',
+                    text: 'remember me'
+                })}
             {props.error && <div className={s.formSummeryError}>
                 {props.error}
             </div>}

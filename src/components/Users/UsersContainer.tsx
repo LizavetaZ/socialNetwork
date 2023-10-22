@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {AppRootType} from '../../Redux/redux-store';
+import {AppRootType} from 'Redux/redux-store';
 import {
     followSuccess,
     followUsersCT,
@@ -10,7 +10,7 @@ import {
     unfollowSuccess,
     unfollowUsersCT,
     UsersType
-} from '../../Redux/users-reducer';
+} from 'Redux/users-reducer';
 import {Users} from './Users';
 import {Preloader} from "../common/Preloader/Preloader";
 import {compose} from "redux";
@@ -21,8 +21,7 @@ import {
     getPageSize,
     getTotalUsersCount,
     getUsers
-} from "../../Redux/users-selectors";
-import {WithAuthRedirect} from "../../hoc/WithAuthRedirect";
+} from "Redux/users-selectors";
 
 export type UsersAPIProps = {
     users: UsersType[];
@@ -43,11 +42,13 @@ export type UsersAPIProps = {
 export class UsersContainer extends React.Component<UsersAPIProps, any> {
 
     componentDidMount() {
-        this.props.getUsersCT(this.props.currentPage, this.props.pageSize)
+        const {currentPage, pageSize} = this.props
+        this.props.getUsersCT(currentPage, pageSize)
     }
 
     onPageChanged = (pageNumber: number) => {
-        this.props.getUsersCT(pageNumber, this.props.pageSize)
+        const {pageSize} = this.props
+        this.props.getUsersCT(pageNumber, pageSize)
     }
 
     render() {
@@ -58,25 +59,12 @@ export class UsersContainer extends React.Component<UsersAPIProps, any> {
                    currentPage={this.props.currentPage}
                    onPageChanged={this.onPageChanged}
                    users={this.props.users}
-                   // followSuccess={this.props.followSuccess}
-                   // unfollowSuccess={this.props.unfollowSuccess}
                    followingInProgress={this.props.followingInProgress}
                    followUsersCT = {this.props.followUsersCT}
                    unfollowUsersCT = {this.props.unfollowUsersCT}/>
             </>
     }
 }
-
-// const mapStateToProps = (state: AppRootType) => {
-//     return {
-//         users: state.usersPage.users,
-//         pageSize: state.usersPage.pageSize,
-//         totalUsersCount: state.usersPage.totalUsersCount,
-//         currentPage: state.usersPage.currentPage,
-//         isFetching: state.usersPage.isFetching,
-//         followingInProgress: state.usersPage.followingInProgress
-//     }
-// }
 
 const mapStateToProps = (state: AppRootType) => {
     return {

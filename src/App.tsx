@@ -9,9 +9,9 @@ import Login from "./components/Login/Login";
 import ProfileContainer from "./components/Profile/ProfileContainer";
 import {connect} from "react-redux";
 import {compose} from "redux";
-import {AppRootType} from "./Redux/redux-store";
-import {initializeApp} from "./app-reducer";
-import {Preloader} from "./components/common/Preloader/Preloader";
+import {AppRootType} from "Redux/redux-store";
+import {initializeApp} from "app-reducer";
+import {Preloader} from "components/common/Preloader/Preloader";
 
 type MapStatePropsType = {
     initialized: boolean

@@ -52,7 +52,7 @@ export type setStatusProfileType = ReturnType<typeof setStatusProfile>
 export type deletePostACType = ReturnType<typeof deletePostAC>
 
 
-export const addPostAC = (newPostText:string) => {
+export const addPostAC = (newPostText: string) => {
     return {
         type: 'ADD-POST',
         newPostText
@@ -84,26 +84,20 @@ export const setStatusProfile = (status: string) => {
     } as const;
 };
 
-export const getUserProfileTC = (userId: number) => (dispatch: Dispatch) => {
-    profileAPI.getProfile(userId)
-        .then(response => {
-            dispatch(setUserProfile(response.data))
-        })
+export const getUserProfileTC = (userId: number) => async (dispatch: Dispatch) => {
+    let response = await profileAPI.getProfile(userId)
+    dispatch(setUserProfile(response.data))
 }
 
-export const getUserStatusTC = (userId: number) => (dispatch: Dispatch) => {
-    profileAPI.getStatus(userId)
-        .then(response => {
-            dispatch(setStatusProfile(response.data))
-        })
+export const getUserStatusTC = (userId: number) => async (dispatch: Dispatch) => {
+    let response = await profileAPI.getStatus(userId)
+    dispatch(setStatusProfile(response.data))
 }
 
-export const updateStatusTC = (status: string) => (dispatch: Dispatch) => {
-    profileAPI.updateStatus(status)
-        .then(response => {
-            if (response.data.resultCode === 0) {
-                dispatch(setStatusProfile(status))
-            }
-        })
+export const updateStatusTC = (status: string) => async (dispatch: Dispatch) => {
+    let response = await profileAPI.updateStatus(status)
+    if (response.data.resultCode === 0) {
+        dispatch(setStatusProfile(status))
+    }
 }
 
