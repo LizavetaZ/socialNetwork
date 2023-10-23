@@ -27,11 +27,12 @@ export const Users = React.memo((props: UsersPropsType) => {
         pages.push(i)
     }
 
+    let portionSize = 10
 
     return (
         <div>
-            <Paginator pageSize={props.pageSize} totalUsersCount={props.totalUsersCount} currentPage={props.currentPage}
-                       onPageChanged={props.onPageChanged}/>
+            <Paginator pageSize={props.pageSize} totalItemsCount={props.totalUsersCount} currentPage={props.currentPage}
+                       onPageChanged={props.onPageChanged} portionSize={portionSize}/>
             {props.users.map(u => <User key={u.id} user={u} followingInProgress={props.followingInProgress}
                                         followUsersCT={props.followUsersCT} unfollowUsersCT={props.unfollowUsersCT}/>)}
         </div>
