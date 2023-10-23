@@ -1,18 +1,11 @@
-    import * as React from 'react';
-    import * as ReactDOM from 'react-dom';
-    import './index.css';
-    import {BrowserRouter} from "react-router-dom";
-    import {store} from './Redux/redux-store'
-    import {Provider} from "react-redux";
-    import App from "./App";
+import { SamuraiJSApp } from 'App';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import './index.css';
 
 
-    ReactDOM.render(
-        <BrowserRouter>
-            <Provider store={store}>
-                <App/>
-            </Provider>
-        </BrowserRouter>,
+ReactDOM.render(
+        <SamuraiJSApp/>,
         document.getElementById('root')
     );
 
