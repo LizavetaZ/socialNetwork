@@ -3,9 +3,10 @@ import {PhotosType, RootACType} from "./users-reducer";
 import {ProfilePropsType} from "components/Profile/Profile";
 import {Dispatch} from "redux";
 import {profileAPI} from "api/api";
+import {ProfileType} from "components/Profile/ProfileContainer";
+import {AppRootType, ThunkType} from "Redux/redux-store";
+import {stopSubmit} from "redux-form";
 
-// const ADD_POST = 'ADD-POST'
-// const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT'
 
 const initialState: ProfilePageType = {
     posts: [
@@ -120,4 +121,18 @@ export const savePhoto = (file: File) => async (dispatch: Dispatch) => {
         dispatch(savePhotoSuccess(response.data.data.photos))
     }
 }
+
+export const saveProfile = (profile: ProfileType): ThunkType => async (dispatch, getState: () => AppRootType) => {
+    const userId = getState().auth.userId as number;
+    let response = await profileAPI.saveProfile(profile);
+    if (response.data.resultCode === 0) {
+        dispatch(getUserProfileTC(userId))
+        return Promise.resolve()
+    } else {
+        let message = response.data.messages.length > 0 ? response.data.messages[0] : 'Some error';
+        dispatch(stopSubmit("edit-profile", {_error: message }));
+        return Promise.reject(response.data.messages[0])
+    }
+};
+
 
