@@ -1,4 +1,10 @@
-import {addPostACType, deletePostACType, setStatusProfileType, setUserProfileACType} from "./profile-reducer";
+import {
+    addPostACType,
+    deletePostACType,
+    savePhotoSuccessType,
+    setStatusProfileType,
+    setUserProfileACType
+} from "./profile-reducer";
 import {sendMessageACType} from "./dialogs-reducer";
 import {setUserDataType} from "./auth-reducer";
 import {Dispatch} from "redux";
@@ -7,14 +13,16 @@ import {updateObjectInArray} from "../utils/object-helpers";
 
 export type UsersType = {
     id: number,
-    photos: {
-        small?: string | null,
-        large?: string | null
-    }
+    photos: PhotosType
     followed: boolean,
     name: string,
     status: string,
     location: LocationType
+}
+
+export type PhotosType = {
+    small?: string | null,
+    large?: string | null
 }
 
 export type LocationType = {
@@ -89,6 +97,7 @@ export type RootACType =
     | toggleIsProgressedACType
     | setStatusProfileType
     | deletePostACType
+| savePhotoSuccessType
 
 export type followACType = ReturnType<typeof followSuccess>
 export type unfollowACType = ReturnType<typeof unfollowSuccess>

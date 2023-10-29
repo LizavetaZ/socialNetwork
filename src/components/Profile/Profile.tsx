@@ -8,13 +8,15 @@ export type ProfilePropsType = {
    profile: null | ProfileType
     status: string
     updateStatus: (status: string) => void
+    isOwner: boolean
+    savePhoto: (file: File) => void
 }
 
 export const Profile = (props: ProfilePropsType) => {
     console.log('profile')
     return (
         <div>
-            <ProfileInfo profile = {props.profile} status = {props.status} updateStatus = {props.updateStatus}/>
+            <ProfileInfo isOwner={props.isOwner} profile = {props.profile} status = {props.status} updateStatus = {props.updateStatus} savePhoto={props.savePhoto}/>
             <MyPostsContainer />
         </div>
     )
