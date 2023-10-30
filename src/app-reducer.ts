@@ -1,4 +1,3 @@
-import {ThunkType} from "./Redux/redux-store";
 import {getAuthUserDataCT} from "./Redux/auth-reducer";
 
 const initialState: AppEnterType = {

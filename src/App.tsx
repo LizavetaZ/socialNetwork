@@ -1,7 +1,7 @@
 import React, {ComponentType, useEffect} from 'react';
 import './App.css';
 import Navbar from "./components/Navbar/Navbar";
-import {BrowserRouter, Route, RouteComponentProps, withRouter} from "react-router-dom";
+import {BrowserRouter, Redirect, Route, RouteComponentProps, Switch, withRouter} from "react-router-dom";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import UsersContainer from "./components/Users/UsersContainer";
 import Login from "./components/Login/Login";
@@ -28,9 +28,20 @@ type OwnPropsType = {}
 type AppPropsType = MapStatePropsType & MapDispatchPropsType & OwnPropsType & RouteComponentProps
 
 const App: React.FC<AppPropsType> = ({initialized, initializeApp}) => {
+
+
     useEffect(() => {
-        initializeApp()
-    }, [])
+        initializeApp();
+        window.addEventListener('unhandledrejection', catchAllUnhandleErrors);
+
+        return () => {
+            window.removeEventListener('unhandledrejection', catchAllUnhandleErrors);
+        };
+    }, []);
+
+    const catchAllUnhandleErrors = (promiseRejectionEvent: PromiseRejectionEvent) => {
+        console.log('Some error occured')
+    }
 
     if (!initialized) {
         return <Preloader/>
@@ -40,17 +51,21 @@ const App: React.FC<AppPropsType> = ({initialized, initializeApp}) => {
             <HeaderContainer/>
             <Navbar/>
             <div className='app-wrapper-content'>
-                <Route path="/dialogs" render={() => {
-                    const SuspendedDialogsContainer = withSuspense(DialogsContainer);
-                    return <SuspendedDialogsContainer />;
-                }} />
+                <Switch>
+                    <Route exact path="/" render={() => <Redirect from="/" to="/profile" />}/>
+                    <Route exact path="/dialogs" render={() => {
+                        const SuspendedDialogsContainer = withSuspense(DialogsContainer);
+                        return <SuspendedDialogsContainer/>;
+                    }}/>
 
-                <Route path="/profile/:userId?" render={() => {
-                    const SuspendedProfileContainer = withSuspense(ProfileContainer);
-                    return <SuspendedProfileContainer />;
-                }} />
-                <Route path="/users" render={() => <UsersContainer/>}/>
-                <Route path="/login" render={() => <Login/>}/>
+                    <Route exact path="/profile/:userId?" render={() => {
+                        const SuspendedProfileContainer = withSuspense(ProfileContainer);
+                        return <SuspendedProfileContainer/>;
+                    }}/>
+                    <Route exact path="/users" render={() => <UsersContainer/>}/>
+                    <Route exact path="/login" render={() => <Login/>}/>
+                    <Route exact path='*' render={() => <div>404 NOT FOUND</div>}/>
+                </Switch>
             </div>
         </div>
     );
