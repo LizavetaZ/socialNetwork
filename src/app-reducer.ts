@@ -31,11 +31,12 @@ export const initializedSuccess = () => {
     } as const
 }
 
-export const initializeApp = (): ThunkType => {
-    return (dispatch) => {
-        let result = dispatch(getAuthUserDataCT())
-        result.then(() => {
-            dispatch(initializedSuccess())
-        })
-    };
+
+export const initializeApp = () => (dispatch: any) => {
+    let promise = dispatch(getAuthUserDataCT());
+
+    Promise.all([promise])
+        .then(() => {
+            dispatch(initializedSuccess());
+        });
 }
